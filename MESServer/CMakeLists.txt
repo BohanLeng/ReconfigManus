@@ -4,22 +4,32 @@ project(MESServer)
 
 add_executable(${PROJECT_NAME} main.cpp
         MESServer.cpp
-        MESServer.h
+        GraphManager.cpp
 )
 
 configure_file(mes_server_cfg.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/mes_server_cfg.json COPYONLY)
+configure_file(graph_model_example_big.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/graph_model_example_big.json)
 
-include_directories(${ROOT_DIR}/TCPConn)
+
+# nlohmann::json
 find_package(nlohmann_json CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 
+# boost
+set(Boost_USE_MULTITHREAD ON)
+find_package(Boost REQUIRED)
+target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
 if (WIN32)
+    set_target_properties(TCPConn PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
     add_definitions(-D_WIN32_WINNT=0x0A00)
     set(Boost_NO_WARN_NEW_VERSIONS 1)
     set(Boost_USE_STATIC_LIBS ON)
-    set(Boost_USE_MULTITHREAD ON)
-endif()
+endif ()
+
+
+# TCPConn
+target_include_directories(${PROJECT_NAME} PRIVATE ${ROOT_DIR}/TCPConn)
 
 if (TARGET TCPConn)
     target_link_libraries(${PROJECT_NAME} PRIVATE TCPConn)

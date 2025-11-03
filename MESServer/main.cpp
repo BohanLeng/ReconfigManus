@@ -5,6 +5,7 @@
 
 using json = nlohmann::json;
 #define DEFAULT_CONFIG_FILE "mes_server_cfg.json"
+#define TEST_GRAPH_FILE "graph_model_example_big.json"
 
 int main(int argc, char* argv[]) {
     const char* cfg_file = DEFAULT_CONFIG_FILE;
@@ -22,5 +23,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    auto server = std::make_unique<MESServer>();
+    auto server = std::make_unique<MESServer>(bind_port);
+    server->Run();
 }
