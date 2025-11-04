@@ -6,7 +6,7 @@
 #define RECONFIGMANUS_MESSERVER_H
 
 #include "TCPServer.h"
-#include "GraphManager.h"
+#include "GraphManager/GraphManager.h"
 
 class MESServer : public TCPConn::ITCPServer<TCPConn::TCPMsg>
 {

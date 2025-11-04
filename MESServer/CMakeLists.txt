@@ -4,11 +4,11 @@ project(MESServer)
 
 add_executable(${PROJECT_NAME} main.cpp
         MESServer.cpp
-        GraphManager.cpp
+        GraphManager/GraphManager.cpp
 )
 
 configure_file(mes_server_cfg.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/mes_server_cfg.json COPYONLY)
-configure_file(graph_model_example_big.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/graph_model_example_big.json)
+configure_file(GraphManager/graph_model_example_big.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/graph_model_example_big.json)
 
 
 # nlohmann::json
