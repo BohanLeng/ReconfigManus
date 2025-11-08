@@ -24,5 +24,7 @@ int main(int argc, char* argv[]) {
     }
 
     auto server = std::make_unique<MESServer>(bind_port);
+    std::cout << "MES Server started at port: " << bind_port << "\n";
+    server->Start();
     server->Run();
 }
