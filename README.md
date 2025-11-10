@@ -7,3 +7,4 @@ A lab-scale Reconfigurable Manufacturing System (RMS) built with Fischertechnik 
 ## Installation
 git clone --recursive-submodules https://github.com/BohanLeng/ReconfigManus
 
+boost::graph

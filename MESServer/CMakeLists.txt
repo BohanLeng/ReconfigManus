@@ -5,10 +5,16 @@ project(MESServer)
 add_executable(${PROJECT_NAME} main.cpp
         MESServer.cpp
         GraphManager/GraphManager.cpp
+        ProcessManager/ProcessManager.cpp
+        OrderManager/OrderManager.cpp
+        ProductManager/ProductManager.cpp
 )
 
 configure_file(mes_server_cfg.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/mes_server_cfg.json COPYONLY)
-configure_file(GraphManager/graph_model_example_big.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/graph_model_example_big.json)
+configure_file(GraphManager/graph_model_example1.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/graph_model_example1.json)
+configure_file(GraphManager/graph_model_example2.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/graph_model_example2.json)
+configure_file(ProcessManager/station_process_cfg_example1.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/station_process_cfg_example1.json)
+configure_file(ProductManager/products.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/products.json)
 
 
 # nlohmann::json

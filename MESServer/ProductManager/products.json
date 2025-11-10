@@ -1,0 +1,49 @@
+{
+  "products": [
+    {
+      "product_type": 1,
+      "product_name": "2-Station Circular System Product",
+      "processes": [
+        {
+          "process_id": 1
+        },
+        {
+          "process_id": 2
+        }
+      ]
+    },
+    {
+      "product_type": 3,
+      "product_name": "Digital Twin Demo Line Product",
+      "processes": [
+        {
+          "process_id": 1
+        },
+        {
+          "process_id": 2
+        },
+        {
+          "process_id": 3
+        },
+        {
+          "process_id": 4
+        },
+        {
+          "process_id": 5
+        },
+        {
+          "process_id": 6
+        },
+        {
+          "process_id": 7
+        },
+        {
+          "process_id": 8
+        },
+        {
+          "process_id": 9
+        }
+      ]
+    }
+  ]
+}

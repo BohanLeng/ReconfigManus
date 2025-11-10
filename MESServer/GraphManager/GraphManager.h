@@ -9,6 +9,8 @@
 #include <nlohmann/json.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
+#include <list>
+#include <unordered_map>
 
 using json = nlohmann::json;
 
@@ -35,7 +37,9 @@ public:
     bool GetArcTimeDist(uint32_t tail, uint32_t head, ST_TimeDist& dist) const;
     bool SetArcTimeDist(uint32_t tail, uint32_t head, const ST_TimeDist& dist);
 
-    bool FindShortestPath(uint32_t tail, uint32_t head, std::vector<uint32_t>& path, float & length_exp) const;
+    bool GetOutgoingNeighborVertices(uint32_t vertex_id, std::list<uint32_t>& out_vertices) const;
+    
+    bool FindShortestPath(uint32_t tail, uint32_t head, std::vector<uint32_t>& out_path, float & out_length) const;
 
     bool WriteOutDotFile(const std::string & filename) const;
 

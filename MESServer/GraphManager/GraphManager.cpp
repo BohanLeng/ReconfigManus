@@ -129,8 +129,31 @@ bool GraphManager::SetArcTimeDist(uint32_t tail, uint32_t head, const ST_TimeDis
     return true;
 }
 
-bool GraphManager::FindShortestPath(uint32_t tail, uint32_t head, std::vector<uint32_t>& path, float& length_exp) const
+bool GraphManager::GetOutgoingNeighborVertices(uint32_t vertex_id, std::list<uint32_t>& out_vertices) const
 {
+    out_vertices.clear();
+    auto it = vertex_map_.find(vertex_id);
+    if (it == vertex_map_.end() || !graph_)
+        return false;
+
+    using Graph = LabelledDiGraph;
+    using vertex_descriptor = boost::graph_traits<Graph>::vertex_descriptor;
+
+    const vertex_descriptor v = it->second;
+
+    // Collect only outgoing neighbors
+    auto adj_pair = boost::adjacent_vertices(v, *graph_);
+    for (auto ai = adj_pair.first; ai != adj_pair.second; ++ai)
+    {
+        out_vertices.push_back((*graph_)[*ai].id);
+    }
+
+    return !out_vertices.empty();
+}
+
+bool GraphManager::FindShortestPath(uint32_t tail, uint32_t head, std::vector<uint32_t>& out_path, float& out_length) const
+{
+    // If head == tail, out_path contains only the same vertex, out_length is 0.0f
     auto itTail = vertex_map_.find(tail);
     auto itHead = vertex_map_.find(head);
     if (itTail == vertex_map_.end() || itHead == vertex_map_.end())
@@ -181,8 +204,8 @@ bool GraphManager::FindShortestPath(uint32_t tail, uint32_t head, std::vector<ui
     }
     std::ranges::reverse(rev_path);
 
-    path = std::move(rev_path);
-    length_exp = static_cast<float>(dist[index_map[itHead->second]]);
+    out_path = std::move(rev_path);
+    out_length = static_cast<float>(dist[index_map[itHead->second]]);
     return true;
 }
 

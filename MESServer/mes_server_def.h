@@ -13,8 +13,8 @@
 enum ORDER_RUN_STATUS
 {
 	ORDER_WAIT,
-	ORDER_DOING,
-	ORDER_DONE,
+	ORDER_EXECUTING,
+	ORDER_FINISHED,
 	ORDER_ERROR,
 	ORDER_DELETE
 };
@@ -28,6 +28,12 @@ enum STEP_EXEC_STATUS
 	EXEC_FAILED
 };
 
+typedef struct
+{
+	uint32_t	tray_id;
+	bool		executing_order;
+	uint32_t	current_order_id;
+} ST_TrayInfo;
 
 //////////////////////////////////////////////////////////////////
 #define ME_MSG_START					0x000
@@ -145,15 +151,8 @@ typedef struct
 	int action_param;
 } ST_MESModuleAction;
 
-typedef struct
-{
-	int		id;
-	int		action_id;
-	char	action_id_comment[128];
-	int		action_param;
-	char	action_param_comment[128];
-	int		module_type;
-} ST_MESProcessData;
+// TODO simplest number to represent process for now
+typedef uint8_t ST_ProcessInfo;
 
 #define MSG_ORDER_STATUS_INFO_QUERY			0x032
 typedef struct
