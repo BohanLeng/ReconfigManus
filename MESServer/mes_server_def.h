@@ -175,6 +175,7 @@ typedef struct
 typedef struct
 {
 	ST_StationActionQuery qry;
+	uint32_t    order_id;
 	uint32_t    action_type; // 0 for release and read next_station_id, 1 for execute and ignore next_station_id
 	uint32_t    next_station_id;
 } ST_StationActionRsp;

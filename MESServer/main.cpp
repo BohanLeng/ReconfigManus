@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
 
     // Construct server (managers may be wired elsewhere; here we only ensure four JSON objects are loaded)
     auto server = std::make_unique<MESServer>(bind_port, j_graph, j_station_cfg, j_products, product_type);
-    server->CreateOrderBatch(10);
+    server->CreateOrderBatch(100);
 
     std::cout << "MES Server started at port: " << bind_port << "\n";
     server->Start();

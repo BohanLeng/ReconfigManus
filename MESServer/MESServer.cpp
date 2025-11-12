@@ -71,11 +71,13 @@ ST_StationActionRsp MESServer::OnStationActionQuery(const ST_StationActionQuery&
 {
     // Construct default releasing response
     ST_StationActionRsp rsp;
+    auto & tray_info = GetTrayInfo(qry.tray_id);
     rsp.qry = qry;
+    // Set order_id based on whether the tray has an executing order
+    rsp.order_id = tray_info.executing_order ? tray_info.current_order_id : UINT32_MAX;
     rsp.action_type = 0;    // Default action: release
     rsp.next_station_id = CalculateDefaultNextStation(qry.workstation_id);
 
-    auto & tray_info = GetTrayInfo(qry.tray_id);
     if (!tray_info.executing_order)
     {
         // Try assigning order to the tray only if at order assigning station
@@ -98,6 +100,7 @@ ST_StationActionRsp MESServer::OnStationActionQuery(const ST_StationActionQuery&
             // Else assigning success
             tray_info.executing_order = true;
             tray_info.current_order_id = order_id;
+            rsp.order_id = order_id;
 
             ST_ProcessInfo process;
             if (!process_manager_->GetNextProcessToExecute(order_id, process))
@@ -110,7 +113,8 @@ ST_StationActionRsp MESServer::OnStationActionQuery(const ST_StationActionQuery&
                 uint32_t next_station = UINT32_MAX;
                 if (!PlanRouteToProcessStation(qry.workstation_id, process, next_station))
                 {
-                    INFO_MSG("[MES] Cannot plan route to station for next process, default release.");
+                    ERROR_MSG("[MES] Cannot plan route to station for next process, default release.");
+                    rsp.order_id = UINT32_MAX;
                     return rsp;
                 }
                 rsp.action_type = 0;
@@ -136,6 +140,7 @@ ST_StationActionRsp MESServer::OnStationActionQuery(const ST_StationActionQuery&
         order_manager_->UpdateOrderStatus(tray_info.current_order_id);
         tray_info.executing_order = false;
         tray_info.current_order_id = UINT32_MAX;
+        rsp.order_id = UINT32_MAX;
         INFO_MSG("[MES] Tray {} status reset", qry.tray_id);
         return rsp;
     }
@@ -163,11 +168,13 @@ ST_StationActionRsp MESServer::OnStationActionDoneQuery(const ST_StationActionQu
 {
     // Construct default releasing response
     ST_StationActionRsp rsp;
+    auto & tray_info = GetTrayInfo(qry.tray_id);
     rsp.qry = qry;
+    // Set order_id based on whether the tray has an executing order
+    rsp.order_id = tray_info.executing_order ? tray_info.current_order_id : UINT32_MAX;
     rsp.action_type = 0;    // Default action: release
     rsp.next_station_id = CalculateDefaultNextStation(qry.workstation_id);
 
-    auto tray_info = GetTrayInfo(qry.tray_id);
     if (!tray_info.executing_order)
     {
         // This case shouldn't exist
@@ -183,6 +190,7 @@ ST_StationActionRsp MESServer::OnStationActionDoneQuery(const ST_StationActionQu
     }
     // TODO for now only consider one process possible for one station
     order_manager_->OnOrderProcessSuccess(tray_info.current_order_id, process_manager_->station_process_map_[qry.workstation_id].front());
+    rsp.order_id = UINT32_MAX;
     graph_manager_->AddTimeDistToAllPathsToVertex(qry.workstation_id, false);
     // Hand over to OnStationActionQuery
     return OnStationActionQuery(qry);
@@ -276,7 +284,7 @@ ST_TrayInfo& MESServer::GetTrayInfo(uint32_t tray_id)
     if (it != tray_info_dict_.end())
         return it->second;
 
-    auto [ins_it, inserted] = tray_info_dict_.try_emplace(tray_id, ST_TrayInfo{ tray_id, false, UINT32_MAX });
+    auto [ins_it, inserted] = tray_info_dict_.try_emplace(tray_id, ST_TrayInfo{ tray_id, false, UINT32_MAX});
     return ins_it->second;
 }
 
