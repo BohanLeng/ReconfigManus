@@ -38,10 +38,14 @@ public:
     bool SetArcTimeDist(uint32_t tail, uint32_t head, const ST_TimeDist& dist);
 
     bool GetOutgoingNeighborVertices(uint32_t vertex_id, std::list<uint32_t>& out_vertices) const;
-    
+    bool GetIncomingNeighborVertices(uint32_t vertex_id, std::list<uint32_t>& out_vertices) const;
+
+    void AddArcTimeDistWithVertexTimeDist(uint32_t tail, uint32_t head, uint32_t vertex_id, bool add_or_minus = true);
+    void AddTimeDistToAllPathsToVertex(uint32_t vertex_id, bool add_or_minus = true);
+
     bool FindShortestPath(uint32_t tail, uint32_t head, std::vector<uint32_t>& out_path, float & out_length) const;
 
-    bool WriteOutDotFile(const std::string & filename) const;
+    void WriteOutDotFile(const std::string& filename) const;
 
 
 private:

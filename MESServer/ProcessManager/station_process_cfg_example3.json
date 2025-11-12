@@ -1,0 +1,46 @@
+{
+  "stations": [
+    {
+      "id": 1,
+      "name": "S1",
+      "process_capability": 1,
+      "is_order_assigning_station": true
+    },
+    {
+      "id": 2,
+      "name": "S2",
+      "process_capability": 2,
+      "is_order_assigning_station": false
+    },
+    {
+      "id": 3,
+      "name": "S3",
+      "process_capability": 3,
+      "is_order_assigning_station": true
+    },
+    {
+      "id": 4,
+      "name": "S4",
+      "process_capability": 4,
+      "is_order_assigning_station": false
+    },
+    {
+      "id": 5,
+      "name": "S7",
+      "process_capability": 7,
+      "is_order_assigning_station": true
+    },
+    {
+      "id": 6,
+      "name": "S5",
+      "process_capability": 5,
+      "is_order_assigning_station": false
+    },
+    {
+      "id": 7,
+      "name": "S9",
+      "process_capability": 5,
+      "is_order_assigning_station": true
+    }
+  ]
+}

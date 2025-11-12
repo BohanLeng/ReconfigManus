@@ -5,8 +5,8 @@
 
 using json = nlohmann::json;
 #define DEFAULT_CONFIG_FILE "mes_server_cfg.json"
-#define TEST_GRAPH_FILE "graph_model_example1.json"
-#define TEST_STATION_CONFIG_FILE "station_process_cfg_example1.json"
+#define TEST_GRAPH_FILE "graph_model_example3.json"
+#define TEST_STATION_CONFIG_FILE "station_process_cfg_example3.json"
 #define PRODUCTS_FILE "products.json"
 
 int main(int argc, char* argv[]) {

@@ -11,6 +11,7 @@ MESServer::MESServer(uint16_t port, const json& j_graph, const json& j_stations,
     : ITCPServer<TCPConn::TCPMsg>(port)
 {
     graph_manager_ = std::make_unique<GraphManager>(j_graph);
+    graph_manager_->WriteOutDotFile("example_graph.dot");
     process_manager_ = std::make_unique<ProcessManager>(std::shared_ptr<MESServer>(this), j_stations, j_products, product_type);
     order_manager_ = std::make_unique<OrderManager>();
 }
@@ -119,7 +120,7 @@ ST_StationActionRsp MESServer::OnStationActionQuery(const ST_StationActionQuery&
             }
             // TODO assume for now one station only execute one type of process, so merely returning  1 meaning execute
             rsp.action_type = 1;
-            // TODO update routing weight
+            graph_manager_->AddTimeDistToAllPathsToVertex(qry.workstation_id);
             INFO_MSG("[MES] Execute process {} at station {}", process, qry.workstation_id);
             return rsp;
         }
@@ -153,7 +154,7 @@ ST_StationActionRsp MESServer::OnStationActionQuery(const ST_StationActionQuery&
     }
     // TODO assume for now one station only execute one type of process, so merely returning  1 meaning execute
     rsp.action_type = 1;
-    // TODO update routing weight
+    graph_manager_->AddTimeDistToAllPathsToVertex(qry.workstation_id);
     INFO_MSG("[MES] Execute process {} at station {}", process, qry.workstation_id);
     return rsp;
 }
@@ -182,6 +183,7 @@ ST_StationActionRsp MESServer::OnStationActionDoneQuery(const ST_StationActionQu
     }
     // TODO for now only consider one process possible for one station
     order_manager_->OnOrderProcessSuccess(tray_info.current_order_id, process_manager_->station_process_map_[qry.workstation_id].front());
+    graph_manager_->AddTimeDistToAllPathsToVertex(qry.workstation_id, false);
     // Hand over to OnStationActionQuery
     return OnStationActionQuery(qry);
 }
@@ -189,7 +191,7 @@ ST_StationActionRsp MESServer::OnStationActionDoneQuery(const ST_StationActionQu
 bool MESServer::FindNextStationToTargetStation(const uint32_t& current_station, const uint32_t& target_station,
                                                uint32_t& out) const
 {
-    // TODO maybe can be refactored to `GraphManager`
+    // TODO maybe can be refactored to `GraphManager`c
     // If current_station == target_station, return the same station
     std::vector<uint32_t> path;
     float length;

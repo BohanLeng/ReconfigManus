@@ -1,0 +1,88 @@
+{
+  "vertices": [
+    {
+      "id": 1,
+      "name": "S1",
+      "buffer_capacity": 3,
+      "service_time_distribution": { "type": "normal", "parameters": [41.0, 0] }
+    },
+    {
+      "id": 2,
+      "name": "S2",
+      "buffer_capacity": 3,
+      "service_time_distribution": { "type": "normal", "parameters": [1.0, 0] }
+    },
+    {
+      "id": 3,
+      "name": "S3",
+      "buffer_capacity": 3,
+      "service_time_distribution": { "type": "normal", "parameters": [20.0, 0] }
+    },
+    {
+      "id": 4,
+      "name": "S4",
+      "buffer_capacity": 3,
+      "service_time_distribution": { "type": "normal", "parameters": [8.0, 0] }
+    },
+    {
+      "id": 5,
+      "name": "S7",
+      "buffer_capacity": 3,
+      "service_time_distribution": { "type": "normal", "parameters": [51.0, 0] }
+    },
+    {
+      "id": 6,
+      "name": "S5",
+      "buffer_capacity": 3,
+      "service_time_distribution": { "type": "normal", "parameters": [62.0, 0] }
+    },
+    {
+      "id": 7,
+      "name": "S9",
+      "buffer_capacity": 3,
+      "service_time_distribution": { "type": "normal", "parameters": [0.0, 0] }
+    }
+  ],
+  "arcs": [
+    {
+      "tail": 1,
+      "head": 2,
+      "transfer_time_distribution": { "type": "normal", "parameters": [16.0, 0] }
+    },
+    {
+      "tail": 2,
+      "head": 3,
+      "transfer_time_distribution": { "type": "normal", "parameters": [14.0, 0] }
+    },
+    {
+      "tail": 3,
+      "head": 4,
+      "transfer_time_distribution": { "type": "normal", "parameters": [18.0, 0] }
+    },
+    {
+      "tail": 4,
+      "head": 5,
+      "transfer_time_distribution": { "type": "normal", "parameters": [8.0, 0] }
+    },
+    {
+      "tail": 5,
+      "head": 6,
+      "transfer_time_distribution": { "type": "normal", "parameters": [14.0, 0] }
+    },
+    {
+      "tail": 5,
+      "head": 7,
+      "transfer_time_distribution": { "type": "normal", "parameters": [18.0, 0] }
+    },
+    {
+      "tail": 6,
+      "head": 1,
+      "transfer_time_distribution": { "type": "normal", "parameters": [47.0, 0] }
+    },
+    {
+      "tail": 7,
+      "head": 1,
+      "transfer_time_distribution": { "type": "normal", "parameters": [30.0, 0] }
+    }
+  ]
+}
